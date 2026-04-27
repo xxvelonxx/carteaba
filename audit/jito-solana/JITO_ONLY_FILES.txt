@@ -1,0 +1,48 @@
+# Jito-Only Files (not present in Agave upstream)
+# HEAD: d18e1be6924969b6fea1e0d417d38225b0d80224 (2026-04-23)
+
+## Top-level crates (Jito-only)
+bundle/src/lib.rs
+jito-protos/build.rs
+jito-protos/src/lib.rs
+jito-protos/src/convert.rs
+bam-client/  (entire crate)
+bam-types/   (entire crate)
+votor/       (entire crate)
+votor-messages/ (entire crate)
+
+## core/src — Jito-only files
+core/src/bam_connection.rs
+core/src/bam_dependencies.rs
+core/src/bam_manager.rs
+core/src/bundle.rs
+core/src/bundle_sigverify_stage.rs
+core/src/bundle_stage.rs
+core/src/bundle_stage/bundle_account_locker.rs
+core/src/bundle_stage/bundle_consumer.rs
+core/src/bundle_stage/bundle_packet_deserializer.rs
+core/src/bundle_stage/bundle_stage_leader_metrics.rs
+core/src/bundle_stage/bundle_storage.rs
+core/src/packet_bundle.rs
+core/src/tip_manager.rs
+core/src/tip_manager/tip_distribution.rs
+core/src/tip_manager/tip_payment.rs
+
+## core/src/proxy — Jito-only (entire subdirectory)
+core/src/proxy/auth.rs
+core/src/proxy/block_engine_stage.rs
+core/src/proxy/fetch_stage_manager.rs
+core/src/proxy/mod.rs
+core/src/proxy/relayer_stage.rs
+
+## core/src/banking_stage — Jito-added scheduler files
+core/src/banking_stage/transaction_scheduler/bam_receive_and_buffer.rs
+core/src/banking_stage/transaction_scheduler/bam_scheduler.rs
+core/src/banking_stage/transaction_scheduler/bam_utils.rs
+
+## Jito-modified files (modified from Agave upstream)
+core/src/tpu.rs           — adds blacklisted_accounts HashSet, BundleStage, ProxyStage
+core/src/banking_stage.rs — adds blacklisted_accounts propagation, BundleAccountLocker integration
+core/src/banking_stage/consume_worker.rs  — adds blacklist checks
+core/src/banking_stage/transaction_scheduler/receive_and_buffer.rs — adds contains_blacklisted_account
+core/src/banking_stage/transaction_scheduler/scheduler_controller.rs — adds blacklisted_accounts field

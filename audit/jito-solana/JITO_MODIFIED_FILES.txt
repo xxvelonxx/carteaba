@@ -1,0 +1,43 @@
+# Jito-Modified Files (present in Agave, modified by Jito)
+# HEAD: d18e1be6924969b6fea1e0d417d38225b0d80224 (2026-04-23)
+# Note: shallow clone (--depth=1) used; exact diff vs Agave v4.0.0-beta.7 not computed
+
+## Core validator client modifications
+
+### core/src/tpu.rs
+Changes:
+- Added `blacklisted_accounts: HashSet<Pubkey>` containing `tip_payment_program_id()`
+- Added `BundleStage` construction and thread handle
+- Added `ProxyStage` (block engine + relayer connection threads)
+- Added `BlockBuilderFeeInfo` Arc<ArcSwap<>> shared state
+- Added `TipManager` construction
+- Added `BundleSignatureVerificationStage`
+
+### core/src/banking_stage.rs
+Changes:
+- Added `blacklisted_accounts: HashSet<Pubkey>` field propagated from tpu.rs
+- Passes blacklisted_accounts to scheduler and consume workers
+- Added `BundleAccountLocker` integration for preventing banking stage from
+  touching accounts locked by bundle stage
+
+### core/src/banking_stage/consume_worker.rs
+Changes:
+- Added `blacklisted_accounts: Arc<HashSet<Pubkey>>` field
+- `translate_transaction` calls `contains_blacklisted_account` after ALT resolution
+
+### core/src/banking_stage/transaction_scheduler/receive_and_buffer.rs
+Changes:
+- Added `contains_blacklisted_account` helper function
+- Added `blacklisted_accounts: HashSet<Pubkey>` to `SanitizedTransactionReceiveAndBuffer`
+- `try_handle_packet` checks blacklist after ALT resolution (via ResolvedTransactionView)
+
+### core/src/banking_stage/transaction_scheduler/scheduler_controller.rs
+Changes:
+- Added `blacklisted_accounts: HashSet<Pubkey>` field passed through to receive_and_buffer
+
+## Key design decisions
+- `blacklisted_accounts` only contains `tip_payment_program_id` (the program ID)
+- Tip PDAs (TIP_ACCOUNT_0 through TIP_ACCOUNT_7) are NOT in the blacklist
+- Config PDA is NOT in the blacklist
+- Blacklist check operates on `view.account_keys()` after ALT resolution in all paths
+- The same blacklist set is used for both BundleStage and BankingStage
