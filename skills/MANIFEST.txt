@@ -1,0 +1,35 @@
+VELON'S SKILLS BACKUP
+Generated: Tue Apr 28 09:57:01 UTC 2026
+
+SKILL COUNT: 13
+
+SKILLS INCLUDED:
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+
+TOTAL SIZE: 1.8M
+
+INSTALLATION:
+1. Extract this archive
+2. Run: bash INSTALL.sh
+3. Verify in new chat: "sigamos cazando"
+
+STRUCTURE:
+- Each skill has SKILL.md (root manifest)
+- Some have agents/ subdirectory (multi-agent systems)
+- Some have references/ subdirectory (deep context)
+
+NEW IN THIS BACKUP (v3.1.0):
+- solana-bounty-hunter3: 34 agents, bash parallel execution mandatory
+- solana-bounty-hunter3v2: same content, shorter description

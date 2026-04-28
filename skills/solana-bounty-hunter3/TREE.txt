@@ -1,0 +1,54 @@
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/README.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/SKILL.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/TREE.txt
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/_create_remaining_agents.sh
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/bandit-account-takeover.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/bandit-criminal.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/bandit-dust-collector.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/bandit-money-flow-tracer.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/composer-alt-poison.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/composer-cross-protocol.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/composer-jito-bundle.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/composer-megatxn.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/composer-token-hook-reentrancy.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-amm-cpamm.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-bridge.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-clmm.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-governance.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-lending.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-mint-token-2022.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-oracle.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-perps.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-restaking.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/expert-vault-lst.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/gate-defense-redteam.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/gate-mainnet-state-fetcher.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/gate-numeric-verifier.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/gate-submission.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/meta-assumption-breaker.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/meta-context-monitor.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/meta-orchestrator.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/meta-skill-evolver.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/meta-tree-state-keeper.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/scanner-account-validation.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/scanner-anchor-pinocchio-quirks.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/scanner-arithmetic.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/scanner-cpi-reentrancy.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/scanner-discriminator-collision.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/agents/scanner-error-paths.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/_create_all_refs.sh
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/assumption-breaker-playbook.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/changelog.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/file-bug-likelihood-ranking.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/gate-7-detail.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/known-rejections.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/learned-patterns.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/mythos-loop-detail.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/output-format.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/post-mortems-to-mine.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/vrc-v2-3-archive.md
+/mnt/user-data/outputs/skills/solana-bounty-hunter3/references/whirlpools-active-hypotheses.md
+=== FILE COUNT ===
+Agents: 34
+References: 11
+Total .md files: 47
