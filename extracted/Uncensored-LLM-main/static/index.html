@@ -2070,7 +2070,7 @@
                         <div class="tweet-actions">
                             ${tweet.replied ? 
                                 '<span style="color: #4caf50;">✓ Geantwortet</span>' : 
-                                `<button class="btn btn-sm btn-primary" onclick="sendTwitterReply('${tweet.tweet_id}', '${escapeHtml(tweet.generated_response || '').replace(/'/g, "\\'")}')">Antworten</button>`
+                                `<button class="btn btn-sm btn-primary" onclick="sendTwitterReply('${escapeHtml(String(tweet.tweet_id))}', '${escapeHtml(tweet.generated_response || '').replace(/'/g, "\\'")}')">Antworten</button>`
                             }
                         </div>
                     </div>
@@ -2561,7 +2561,7 @@
                                 }
                                 
                                 if (data.error) {
-                                    assistantDiv.innerHTML = `<span style="color: #f44336;">Fehler: ${data.error}</span>`;
+                                    assistantDiv.innerHTML = `<span style="color: #f44336;">Fehler: ${escapeHtml(data.error)}</span>`;
                                     addTerminalLine(`Fehler: ${data.error}`, 'error');
                                 }
                             } catch (e) {

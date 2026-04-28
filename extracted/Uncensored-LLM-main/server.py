@@ -96,7 +96,8 @@ class TabooManager:
         Returns:
             The created taboo item
         """
-        taboo_id = str(uuid.uuid4())[:12]  # Use UUID for guaranteed uniqueness
+        import secrets
+        taboo_id = secrets.token_hex(6)
         taboo_item = {
             "id": taboo_id,
             "description": description,
@@ -249,22 +250,20 @@ def unload_unused_models():
         pass
 
 
+def _llm_callback(prompt):
+    return get_llm().invoke(prompt)
+
+
+def _personality_prompt_builder(query):
+    return build_personality_prompt(query)
+
+
 def get_twitter_handler():
     """Get or create Twitter handler instance."""
     global _twitter_handler
     if _twitter_handler is None:
         from twitter_handler import TwitterHandler
-        
-        def llm_callback(prompt):
-            """Callback to generate LLM responses for tweets."""
-            llm = get_llm()
-            return llm.invoke(prompt)
-        
-        def personality_prompt_builder(query):
-            """Build prompt using active personality."""
-            return build_personality_prompt(query)
-        
-        _twitter_handler = TwitterHandler(CONFIG, llm_callback, personality_prompt_builder)
+        _twitter_handler = TwitterHandler(CONFIG, _llm_callback, _personality_prompt_builder)
         # Initialize with existing config if available
         if CONFIG.get("twitter", {}).get("api_key"):
             _twitter_handler.configure(CONFIG.get("twitter", {}))
@@ -276,17 +275,7 @@ def get_telegram_handler():
     global _telegram_handler
     if _telegram_handler is None:
         from telegram_handler import TelegramHandler
-        
-        def llm_callback(prompt):
-            """Callback to generate LLM responses for Telegram messages."""
-            llm = get_llm()
-            return llm.invoke(prompt)
-        
-        def personality_prompt_builder(query):
-            """Build prompt using active personality."""
-            return build_personality_prompt(query)
-        
-        _telegram_handler = TelegramHandler(CONFIG, llm_callback, personality_prompt_builder)
+        _telegram_handler = TelegramHandler(CONFIG, _llm_callback, _personality_prompt_builder)
         # Initialize with existing config if available
         if CONFIG.get("telegram", {}).get("bot_token"):
             _telegram_handler.configure(CONFIG.get("telegram", {}))
@@ -460,7 +449,8 @@ def process_pdf(filepath):
     chunks = splitter.split_documents(pages)
 
     filename = Path(filepath).name
-    file_hash = hashlib.md5(open(filepath, "rb").read()).hexdigest()
+    with open(filepath, "rb") as _f:
+        file_hash = hashlib.sha256(_f.read()).hexdigest()
     for i, chunk in enumerate(chunks):
         chunk.metadata["source"] = filename
         chunk.metadata["file_hash"] = file_hash
@@ -1086,7 +1076,7 @@ def twitter_scanner_stop():
     try:
         handler = get_twitter_handler()
         result = handler.stop_scanner()
-        return jsonify({"success": True, "message": "Scanner stopped"})
+        return jsonify(result)
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
