@@ -111,6 +111,22 @@
       "sparse_swap.rs try_build (ZeroedTickArray for missing/wrong tick arrays)"
     ]
   },
+  "methodology": {
+    "framework": "Bandit/Mythos — multi-wave agent swarm, bottom-up from money",
+    "reference_architecture": {
+      "name": "OpenMythos (RDT)",
+      "url": "https://github.com/kyegomez/OpenMythos",
+      "comparison_doc": "hunt-state/mythos-comparison.md",
+      "key_parallel": "Both use iteration-as-depth: RDT loops shared weights T times (latent CoT); our swarm runs N waves (explicit CoT). tree.json = hidden state h_t. Gate-7 = ACT halting condition.",
+      "borrowed_improvements": [
+        "Spectral stability: each wave must close more leads than it opens (ratio < 1 = diverging)",
+        "Input injection: full tree.json MEDIUM/LIVE section prepended to every wave prompt",
+        "Loop index role: W1=recon, W2=attack, W3=PoC, W4=kill — no role mixing",
+        "Hard halt: 3 consecutive empty waves → terminate hunt",
+        "MoE routing: tag leads by required expertise, route to matching specialized agents only"
+      ]
+    }
+  },
   "entrypoint_analysis": {
     "pinocchio_intercepted": [
       "IncreaseLiquidity", "DecreaseLiquidity",
