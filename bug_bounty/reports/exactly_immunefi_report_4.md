@@ -1,5 +1,5 @@
 # Immunefi Bug Report — Exactly Protocol
-## Finding 4 (MEDIUM): Auditor.sol — 1-wei Deposit Permanently Blocks clearBadDebt at Zero Cost to Attacker
+## Finding 4 (MEDIUM): Auditor.sol — 1-wei Deposit Permanently Blocks handleBadDebt() at Zero Cost to Attacker
 
 **Program**: Exactly Protocol — https://immunefi.com/bug-bounty/exactly/  
 **Network**: Optimism (OP Mainnet)  
@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-The `Auditor.clearBadDebt()` function contains an early-exit check that can be permanently triggered by depositing 1 wei into any active market. This allows an attacker to keep a target account's bad debt alive indefinitely at essentially zero cost, preventing the protocol from clearing the dead weight and potentially leaving accumulated bad debt in the system.
+The `Auditor.handleBadDebt()` function contains an early-exit check that can be permanently triggered by depositing 1 wei of USDC into the USDC market on behalf of the target account. Note: `handleBadDebt()` is the entry point that orchestrates bad debt clearing — it calls `market.clearBadDebt(borrower)` only if the borrower has zero collateral. The early-return check prevents that call from ever being reached. This allows an attacker to keep a target account's bad debt alive indefinitely at essentially zero cost, preventing the protocol from clearing the dead weight and potentially leaving accumulated bad debt in the system.
 
 ---
 
@@ -19,23 +19,29 @@ The `Auditor.clearBadDebt()` function contains an early-exit check that can be p
 ### Vulnerable Code — `Auditor.sol`
 
 ```solidity
-function clearBadDebt(address borrower) external {
-    // ...
-    uint256 marketMap = accountMarkets[borrower];
+// Auditor.sol — handleBadDebt() is the entry point for bad debt clearing
+function handleBadDebt(address account) external {
+    uint256 memMarketMap = accountMarkets[account];
+    uint256 marketMap = memMarketMap;
     for (uint256 i = 0; marketMap != 0; marketMap >>= 1) {
         if (marketMap & 1 != 0) {
             Market market = marketList[i];
             MarketData storage m = markets[market];
-            
-            // THIS CHECK: if borrower has ANY collateral value > 0, bail out
+            uint256 assets = market.maxWithdraw(account);  // ← victim's withdrawable balance
+            // THIS CHECK: if ANY market shows collateral value > 0, bail out entirely
             if (
                 assets.mulDivDown(assetPrice(m.priceFeed), 10 ** m.decimals)
                     .mulWadDown(m.adjustFactor) > 0
-            ) return;  // ← early return, bad debt NOT cleared
+            ) return;  // ← early return, market.clearBadDebt() is NEVER called
         }
         unchecked { ++i; }
     }
-    // ... (bad debt clearing logic only reached if ALL markets have 0 weighted collateral)
+    // Second loop — only reached if ALL markets show 0 weighted collateral:
+    marketMap = memMarketMap;
+    for (uint256 i = 0; marketMap != 0; marketMap >>= 1) {
+        if (marketMap & 1 != 0) marketList[i].clearBadDebt(account); // never reached
+        unchecked { ++i; }
+    }
 }
 ```
 
@@ -43,24 +49,24 @@ The function exits WITHOUT clearing bad debt if the borrower has ANY collateral 
 
 ### The Attack
 
-1. Target: Alice has a bad debt position. The protocol wants to call `clearBadDebt(Alice)`.
+1. Target: Alice has a bad debt position. The protocol wants to call `handleBadDebt(Alice)`.
 
 2. Attacker deposits **1 wei** of any asset into any market on Alice's behalf: `market.deposit(1, alice)`. This costs ~$0.000000001 plus gas.
 
 3. Now `accountMarkets[Alice]` includes that market, and `assets` = 1 wei → `mulDivDown(assetPrice, decimals).mulWadDown(adjustFactor) > 0` evaluates to **true** for any market with `assetPrice > 1e-18 USD`.
 
-4. `clearBadDebt(Alice)` returns early, forever, as long as the attacker maintains the 1-wei deposit.
+4. `handleBadDebt(Alice)` returns early, forever, as long as the attacker maintains the 1-wei deposit.
 
 5. Attacker pays gas to re-deposit 1 wei whenever needed (e.g., after liquidators try to remove it). The cost of maintaining the grief is near-zero while the bad debt persists in the protocol's books.
 
 ### Why This Matters
 
-`clearBadDebt()` is a critical protocol health function:
+`handleBadDebt()` is a critical protocol health function:
 - Bad debt accumulates interest charges that real depositors absorb
 - Uncleaned bad debt distorts `totalAssets()` and therefore share prices
 - If bad debt is never cleared, eventually depositors' withdrawable amounts shrink below their deposits
 
-By griefing `clearBadDebt()` for a large bad debt position, an attacker can maximally amplify the damage from a previous liquidation event.
+By griefing `handleBadDebt()` for a large bad debt position, an attacker can maximally amplify the damage from a previous liquidation event.
 
 ---
 
@@ -73,7 +79,7 @@ pragma solidity ^0.8.17;
 import "forge-std/Test.sol";
 
 interface IAuditor {
-    function clearBadDebt(address borrower) external;
+    function handleBadDebt(address borrower) external;
     function accountMarkets(address) external view returns (uint256);
 }
 
@@ -115,17 +121,17 @@ contract DustGriefingTest is Test {
         // Protocol tries to clear Alice's bad debt
         // This will fail (return early without clearing) because Alice has dust collateral
         vm.prank(protocol);
-        // clearBadDebt would return early here — in real test with actual bad debt state:
-        // AUDITOR.clearBadDebt(alice); // → returns without clearing
+        // handleBadDebt would return early here — in real test with actual bad debt state:
+        // AUDITOR.handleBadDebt(alice); // → returns without clearing
 
         // Verify: Alice's market map now includes MarketOP thanks to attacker's 1-wei deposit
         // The early-return check: assets=1, assetPrice>0, adjustFactor>0 → product > 0 → return
         
         console.log("Attacker cost: 1 wei (~$0.000000001) + gas");
-        console.log("Effect: clearBadDebt() permanently blocked for Alice");
+        console.log("Effect: handleBadDebt() permanently blocked for Alice");
         console.log("Bad debt continues to accrue, distorting protocol accounting");
         
-        // The check in clearBadDebt that is exploited:
+        // The check in handleBadDebt that is exploited:
         // if (assets.mulDivDown(assetPrice(m.priceFeed), 10**m.decimals).mulWadDown(m.adjustFactor) > 0) return;
         // With assets=1, assetPrice=$0.50 (OP), decimals=18, adjustFactor=0.5e18:
         // = 1 * 0.5e8 / 1e18 * 0.5e18 / 1e18 = very small but > 0 in integer math
@@ -135,7 +141,7 @@ contract DustGriefingTest is Test {
         // The realistic minimum effective dust amount is ~1000 wei for high-value assets
         // or 1 for USDC (6 decimals): mulDivDown(1, 100000000, 1e6) = 100 > 0 → BLOCKED
         
-        console.log("For USDC (6 decimals): 1 wei deposit IS sufficient to block clearBadDebt");
+        console.log("For USDC (6 decimals): 1 wei deposit IS sufficient to block handleBadDebt");
         console.log("Attacker cost in USDC: $0.000001 (1 USDC micro-unit)");
     }
 }
@@ -143,7 +149,7 @@ contract DustGriefingTest is Test {
 
 **Key note on USDC**: With 6 decimals and USDC at $1.00, even 1 wei = $0.000001 is sufficient to trigger the early return:
 ```
-mulDivDown(1, 100000000, 10^6) = mulDivDown(1, 1e8, 1e6) = 100 > 0 → clearBadDebt BLOCKED
+mulDivDown(1, 100000000, 10^6) = mulDivDown(1, 1e8, 1e6) = 100 > 0 → handleBadDebt BLOCKED
 ```
 
 ---
@@ -166,7 +172,7 @@ Change the early-return threshold from `> 0` to a minimum economically meaningfu
 ```solidity
 uint256 MIN_COLLATERAL_VALUE = 1e16; // $0.01 in 18-decimal USD
 
-function clearBadDebt(address borrower) external {
+function handleBadDebt(address borrower) external {
     ...
     if (
         assets.mulDivDown(assetPrice(m.priceFeed), 10 ** m.decimals)
