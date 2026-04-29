@@ -107,8 +107,8 @@ interface IAuditor {
 }
 
 contract AllowanceBorrowExploitTest is Test {
-    IMarket constant MARKET_USDC = IMarket(0x81c9A7B55A4df39A9B7B5F781ec0E53539694873);
-    IMarket constant MARKET_WETH = IMarket(0xa430A427bd00210506589906a71B54d6C256CEdb);
+    IMarket constant MARKET_USDC = IMarket(0x81C9A7B55A4df39A9B7B5F781ec0e53539694873); // MarketUSDC.e
+    IMarket constant MARKET_WETH = IMarket(0xc4d4500326981eacD020e20A81b1c479c161c7EF);
     IAuditor constant AUDITOR    = IAuditor(0xaEb62e6F27BC103702E7BC879AE98bceA56f027E);
     address constant USDC        = 0x7F5c764cBc14f9669B88837ca1490cCa17c31607;
     address constant WETH        = 0x4200000000000000000000000000000000000006;
