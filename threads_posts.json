@@ -1,0 +1,189 @@
+[
+  {
+    "id": "DN-y80piZsH",
+    "text": "This is how a robot is trained to perform its tasks",
+    "date": "2025-08",
+    "likes": 931,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DN-y80piZsH",
+    "notes": "Video of robot motion capture/training. High engagement post."
+  },
+  {
+    "id": "DUaWmz5EdHc",
+    "text": "'Local Video Editing' is officially dead 🤯 VideoSOS runs 100+ AI models in browser — no downloads, no install, no cloud. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DUaWmz5EdHc"
+  },
+  {
+    "id": "DUQurO9CDE8",
+    "text": "Vector databases just got replaced by MP4 files 🤯 Memvid stores 1M text chunks inside video frames — 10x smaller than JSON, works offline, no server needed. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DUQurO9CDE8"
+  },
+  {
+    "id": "DU56zxvCGWG",
+    "text": "ElevenLabs just lost its moat 🤯 Voicebox clones your voice from a 3-second clip, runs 100% locally on your machine. No cloud, no API key, no subscription. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DU56zxvCGWG"
+  },
+  {
+    "id": "DVgBQmnCJ50",
+    "text": "This tool REMOVES LLM CENSORSHIP in 45 minutes 🤯 Heretic permanently deletes the model's refusal ability — no jailbreaks, no prompts. Just fine-tune it out. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DVgBQmnCJ50"
+  },
+  {
+    "id": "DVgBRvTCO9e",
+    "text": "github.com/p-e-w/heretic",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DVgBRvTCO9e",
+    "notes": "Companion link post to Heretic tool announcement"
+  },
+  {
+    "id": "DVL574PEdCf",
+    "text": "github.com/koala73/worldmonitor",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DVL574PEdCf",
+    "notes": "Companion link post — WorldMonitor tool"
+  },
+  {
+    "id": "DVrcfdVipH8",
+    "text": "BREAKING: geo-seo-claude optimizes your website for AI search engines (ChatGPT, Perplexity, Claude) — not just Google. Generates llms.txt, robots.txt, sitemaps for AI crawlers. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DVrcfdVipH8"
+  },
+  {
+    "id": "DVRS_K9FCJ9",
+    "text": "OpenClaw + Scrapling: scrape any website without Cloudflare blocking — 774x faster than BeautifulSoup, zero dependencies. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DVRS_K9FCJ9"
+  },
+  {
+    "id": "DVTFqpgkccs",
+    "text": "Manus AI just lost its moat 🤯 AgenticSeek: 100% local autonomous agent that browses, codes, and plans — no Manus account, no cloud, no subscription. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DVTFqpgkccs"
+  },
+  {
+    "id": "DV_jOJykdtS",
+    "text": "github.com/sgoudelis/ground-station",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DV_jOJykdtS",
+    "notes": "Companion link post — Ground Station tool"
+  },
+  {
+    "id": "DV-61mukbpK",
+    "text": "Give Claude Code a visual map of your entire codebase — local graph visualization tool, zero config, 100% open source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DV-61mukbpK"
+  },
+  {
+    "id": "DWe8d3CCObC",
+    "text": "Literal time machine LLM 🤯 This model was trained on 28,000 Victorian-era books (1837–1899) and only knows the world up to 1900. Ask it anything and it answers like it's still the 19th century.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DWe8d3CCObC"
+  },
+  {
+    "id": "DWFMcG0D7PR",
+    "text": "Tool tracks your AI usage limits directly from the macOS menu bar. Supports Claude, OpenAI, Gemini. Fully local, fully private. 100% open source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DWFMcG0D7PR"
+  },
+  {
+    "id": "DWJxncHkdm_",
+    "text": "github.com/vllm-project/vllm-omni",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DWJxncHkdm_",
+    "notes": "Companion link post — vLLM Omni"
+  },
+  {
+    "id": "DWjpBelkYmo",
+    "text": "Run a 397B parameter AI model locally on your MacBook 🤯 flash-moe streams Qwen3.5-397B from SSD instead of loading into RAM — no GPU cluster needed. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DWjpBelkYmo"
+  },
+  {
+    "id": "DWvCagggoSv",
+    "text": "Get the best open-source AI tools every week → simplifyingai.co (50,000+ subscribers)",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DWvCagggoSv",
+    "notes": "Newsletter promotion post"
+  },
+  {
+    "id": "DXhXTrTiDKv",
+    "text": "github.com/khanh-atom/n8n-atom-fork",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DXhXTrTiDKv",
+    "notes": "Companion link post — n8n automation fork"
+  },
+  {
+    "id": "DXJj8ejiLv8",
+    "text": "Run Claude Code entirely in your local terminal — claude-code-local strips all telemetry and cloud calls. Privacy-focused. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DXJj8ejiLv8"
+  },
+  {
+    "id": "DXl2gqKibYp",
+    "text": "Someone open-sourced the entire ElevenLabs + Descript stack 🤯 Voice-Pro: local Gradio WebUI for voice cloning, transcription, and audio editing. No subscriptions, no cloud. 100% Open Source.",
+    "date": "",
+    "likes": 0,
+    "replies": 0,
+    "reposts": 0,
+    "link": "https://www.threads.com/@simplifyinai/post/DXl2gqKibYp"
+  }
+]
