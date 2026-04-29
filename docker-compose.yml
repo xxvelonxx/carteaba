@@ -1,0 +1,109 @@
+version: "3.9"
+
+# Bug Bounty Swarm — Claude Sonnet 4.6
+# Uso: docker compose up -d
+# Target: TARGET=example.com docker compose up
+
+services:
+
+  # ── Agente principal ────────────────────────────────────────────────────────
+  agent:
+    build: ./bug_bounty
+    container_name: bb-agent
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
+      - TARGET=${TARGET:-}
+      - MODE=${MODE:-autopilot}
+    volumes:
+      - ./bug_bounty/sessions:/app/sessions
+      - ./bug_bounty/reports:/app/reports
+      - ./bug_bounty/memory:/app/memory
+    networks:
+      - bb-net
+    depends_on:
+      - nuclei-runner
+    command: >
+      python agent.py
+        --target ${TARGET}
+        --mode ${MODE:-autopilot}
+        --output /app/reports/${TARGET:-target}_$(date +%Y%m%d).md
+
+  # ── Nuclei (scanner rápido) ──────────────────────────────────────────────────
+  nuclei-runner:
+    image: projectdiscovery/nuclei:latest
+    container_name: bb-nuclei
+    volumes:
+      - ./bug_bounty/nuclei-output:/output
+      - ./bug_bounty/nuclei-templates:/root/nuclei-templates
+    networks:
+      - bb-net
+    entrypoint: ["tail", "-f", "/dev/null"]  # Keeps alive, agent lo invoca via docker exec
+
+  # ── Recon runner ────────────────────────────────────────────────────────────
+  recon:
+    image: python:3.11-slim
+    container_name: bb-recon
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
+    volumes:
+      - ./bug_bounty:/app
+    networks:
+      - bb-net
+    working_dir: /app
+    command: python hunters/recon.py --target ${TARGET:-}
+    profiles: ["swarm"]  # Solo en modo swarm
+
+  # ── IDOR + Race hunter ───────────────────────────────────────────────────────
+  idor-hunter:
+    image: python:3.11-slim
+    container_name: bb-idor
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
+    volumes:
+      - ./bug_bounty:/app
+    networks:
+      - bb-net
+    working_dir: /app
+    command: python hunters/idor.py --target ${TARGET:-}
+    profiles: ["swarm"]
+
+  # ── Business Logic hunter ────────────────────────────────────────────────────
+  logic-hunter:
+    image: python:3.11-slim
+    container_name: bb-logic
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
+    volumes:
+      - ./bug_bounty:/app
+    networks:
+      - bb-net
+    working_dir: /app
+    command: python hunters/business_logic.py --target ${TARGET:-}
+    profiles: ["swarm"]
+
+  # ── Chain hunter ─────────────────────────────────────────────────────────────
+  chain-hunter:
+    image: python:3.11-slim
+    container_name: bb-chain
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
+    volumes:
+      - ./bug_bounty:/app
+    networks:
+      - bb-net
+    working_dir: /app
+    command: python hunters/chains.py --target ${TARGET:-}
+    profiles: ["swarm"]
+
+volumes:
+  bb-sessions:
+  bb-reports:
+
+networks:
+  bb-net:
+    driver: bridge
